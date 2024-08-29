@@ -1,25 +1,41 @@
-import { useState } from "react";
+import { Fragment } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { publicRoutes } from '~/routes'
+import { DefaultLayout } from '~/components/Layout';
 
-const gifts = [
-  'car',
-  'house',
-  'girl',
-]
 
 function App() {
 
-  const [gift, setGift] = useState()
-
-  const randomGift = () => {
-    const index = Math.floor(Math.random() * gifts.length)
-    setGift(gifts[index])
-  }
-
   return (
-    <div className="App">
-      <h1> {gift || 'No gift'} </h1>
-      <button onClick={randomGift}>Increase</button>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {publicRoutes.map((route, index) => {
+            const Page = route.component;
+
+            let Layout = DefaultLayout
+
+            if (route.layout) {
+              Layout = route.layout
+            } else if (route.layout === null) {
+              Layout = Fragment
+            }
+
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            )
+          })}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
