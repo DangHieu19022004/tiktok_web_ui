@@ -18,7 +18,9 @@ function Button({
     leftIcon,
     rightIcon,
     children,
-    onClick, ...passProps
+    className,
+    onClick, 
+    ...passProps
 }) {
     let Comp = 'button'
     const props = {
@@ -44,6 +46,7 @@ function Button({
     }
 
     const classes = cx('wrapper', {
+        [className]: className,
         primary,
         outline,
         disable,
